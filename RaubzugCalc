@@ -1,0 +1,484 @@
+   function calculateHauls() {
+
+        checkboxStatus();
+
+        totalLoot = spears * 25 + swords * 15 + axes * 10 + lightC * 80 + heavyC * 50 + archer * 10 + marcher * 50;
+        totalSpSwLoot = spears * 25 + swords * 15;
+        possibleLoot = spears * 25 + swords * 15 + axes * 10 + lightC * 80 + heavyC * 50 + archer * 10 + marcher * 50;
+        spearRatio = spears / (spears * 25 + swords * 15);
+        swordRatio = swords / (spears * 25 + swords * 15);
+
+        time = hours * 3600;
+        haul = ((time / duration_factor - duration_initial_seconds) ** (1 / (duration_exponent)) / 100) ** (1 / 2);
+        haul1 = haul / 0.1;
+        haul2 = haul / 0.25;
+        haul3 = haul / 0.5;
+        haul4 = haul / 0.75;
+        totalHaul = haul1 + haul2 + haul3 + haul4;
+
+    }
+    calculateHauls();
+
+    if ("haulCategory" in localStorage) {
+        haulCategory = localStorage.getItem("haulCategory");
+    } else {
+        haulCategory = 0;
+        localStorage.setItem("haulCategory", haulCategory);
+    }
+
+
+    if (totalLoot > totalHaul) {
+        if (totalSpSwLoot > totalHaul) {
+            if (haulCategory == 0) {
+                haulCategory = 1;
+                localStorage.setItem("haulCategory", haulCategory);
+            }
+        } else {
+            if (haulCategory == 0) {
+                haulCategory = 2;
+                localStorage.setItem("haulCategory", haulCategory);
+            }
+        }
+    } else {
+        if (haulCategory == 0) {
+            haulCategory = 3;
+            localStorage.setItem("haulCategory", haulCategory);
+        }
+    }
+
+    if (haulCategory == 1) {
+        scavengeOptions = {};
+        scavengeOptions[greatGatherers] = [
+            {
+                type: 'spear',
+                count: (haul4 * spearRatio)
+            },
+            {
+                type: 'sword',
+                count: (haul4 * swordRatio)
+            },
+            {
+                type: 'axe',
+                count: 0
+            },
+            {
+                type: 'archer',
+                count: 0
+            },
+            {
+                type: 'light',
+                count: 0
+            },
+            {
+                type: 'marcher',
+                count: 0
+            },
+            {
+                type: 'heavy',
+                count: 0
+            },
+        ];
+        scavengeOptions[cleverCollectors] = [
+            {
+                type: 'spear',
+                count: (haul3 * spearRatio)
+            },
+            {
+                type: 'sword',
+                count: (haul3 * swordRatio)
+            },
+            {
+                type: 'axe',
+                count: 0
+            },
+            {
+                type: 'archer',
+                count: 0
+            },
+            {
+                type: 'light',
+                count: 0
+            },
+            {
+                type: 'marcher',
+                count: 0
+            },
+            {
+                type: 'heavy',
+                count: 0
+            },
+        ];
+        scavengeOptions[humbleHaulers] = [
+            {
+                type: 'spear',
+                count: (haul2 * spearRatio)
+            },
+            {
+                type: 'sword',
+                count: (haul2 * swordRatio)
+            },
+            {
+                type: 'axe',
+                count: 0
+            },
+            {
+                type: 'archer',
+                count: 0
+            },
+            {
+                type: 'light',
+                count: 0
+            },
+            {
+                type: 'marcher',
+                count: 0
+            },
+            {
+                type: 'heavy',
+                count: 0
+            },
+        ];
+        scavengeOptions[lackadaisicalLooters] = [
+            {
+                type: 'spear',
+                count: (haul1 * spearRatio)
+            },
+            {
+                type: 'sword',
+                count: (haul1 * swordRatio)
+            },
+            {
+                type: 'axe',
+                count: 0
+            },
+            {
+                type: 'archer',
+                count: 0
+            },
+            {
+                type: 'light',
+                count: 0
+            },
+            {
+                type: 'marcher',
+                count: 0
+            },
+            {
+                type: 'heavy',
+                count: 0
+            },
+        ];
+
+    } else {
+        if (haulCategory == 2) {
+            scavengeOptions = {};
+            scavengeOptions[greatGatherers] = [
+                {
+                    type: 'spear',
+                    count: (haul4 * (spears / possibleLoot))
+                },
+                {
+                    type: 'sword',
+                    count: (haul4 * (swords / possibleLoot))
+                },
+                {
+                    type: 'axe',
+                    count: (haul4 * (axes / possibleLoot))
+                },
+                {
+                    type: 'light',
+                    count: (haul4 * (lightC / possibleLoot))
+                },
+                {
+                    type: 'heavy',
+                    count: (haul4 * (heavyC / possibleLoot))
+                },
+                {
+                    type: 'archer',
+                    count: (haul4 * (archer / possibleLoot))
+                },
+                {
+                    type: 'marcher',
+                    count: (haul4 * (marcher / possibleLoot))
+                },
+            ];
+            scavengeOptions[cleverCollectors] = [
+                {
+                    type: 'spear',
+                    count: (haul3 * (spears / possibleLoot))
+                },
+                {
+                    type: 'sword',
+                    count: (haul3 * (swords / possibleLoot))
+                },
+                {
+                    type: 'axe',
+                    count: (haul3 * (axes / possibleLoot))
+                },
+                {
+                    type: 'light',
+                    count: (haul3 * (lightC / possibleLoot))
+                },
+                {
+                    type: 'heavy',
+                    count: (haul3 * (heavyC / possibleLoot))
+                },
+                {
+                    type: 'archer',
+                    count: (haul3 * (archer / possibleLoot))
+                },
+                {
+                    type: 'marcher',
+                    count: (haul3 * (marcher / possibleLoot))
+                },
+            ];
+            scavengeOptions[humbleHaulers] = [
+                {
+                    type: 'spear',
+                    count: (haul2 * (spears / possibleLoot))
+                },
+                {
+                    type: 'sword',
+                    count: (haul2 * (swords / possibleLoot))
+                },
+                {
+                    type: 'axe',
+                    count: (haul2 * (axes / possibleLoot))
+                },
+                {
+                    type: 'light',
+                    count: (haul2 * (lightC / possibleLoot))
+                },
+                {
+                    type: 'heavy',
+                    count: (haul2 * (heavyC / possibleLoot))
+                },
+                {
+                    type: 'archer',
+                    count: (haul2 * (archer / possibleLoot))
+                },
+                {
+                    type: 'marcher',
+                    count: (haul2 * (marcher / possibleLoot))
+                },
+            ];
+            scavengeOptions[lackadaisicalLooters] = [
+                {
+                    type: 'spear',
+                    count: (haul1 * (spears / possibleLoot))
+                },
+                {
+                    type: 'sword',
+                    count: (haul1 * (swords / possibleLoot))
+                },
+                {
+                    type: 'axe',
+                    count: (haul1 * (axes / possibleLoot))
+                },
+                {
+                    type: 'light',
+                    count: (haul1 * (lightC / possibleLoot))
+                },
+                {
+                    type: 'heavy',
+                    count: (haul1 * (heavyC / possibleLoot))
+                },
+                {
+                    type: 'archer',
+                    count: (haul1 * (archer / possibleLoot))
+                },
+                {
+                    type: 'marcher',
+                    count: (haul1 * (marcher / possibleLoot))
+                },
+            ];
+        } else {
+            if (haulCategory == 3) {
+                scavengeOptions = {};
+                scavengeOptions[greatGatherers] = [
+                    {
+                        type: 'spear',
+                        count: ((totalLoot / totalHaul * haul4) * (spears / possibleLoot))
+                    },
+                    {
+                        type: 'sword',
+                        count: ((totalLoot / totalHaul * haul4) * (swords / possibleLoot))
+                    },
+                    {
+                        type: 'axe',
+                        count: ((totalLoot / totalHaul * haul4) * (axes / possibleLoot))
+                    },
+                    {
+                        type: 'light',
+                        count: ((totalLoot / totalHaul * haul4) * (lightC / possibleLoot))
+                    },
+                    {
+                        type: 'heavy',
+                        count: ((totalLoot / totalHaul * haul4) * (heavyC / possibleLoot))
+                    },
+                    {
+                        type: 'archer',
+                        count: ((totalLoot / totalHaul * haul4) * (archer / possibleLoot))
+                    },
+                    {
+                        type: 'marcher',
+                        count: ((totalLoot / totalHaul * haul4) * (marcher / possibleLoot))
+                    },
+                ];
+                scavengeOptions[cleverCollectors] = [
+                    {
+                        type: 'spear',
+                        count: ((totalLoot / (totalHaul - haul4) * haul3) * (spears / possibleLoot))
+                    },
+                    {
+                        type: 'sword',
+                        count: ((totalLoot / (totalHaul - haul4) * haul3) * (swords / possibleLoot))
+                    },
+                    {
+                        type: 'axe',
+                        count: ((totalLoot / (totalHaul - haul4) * haul3) * (axes / possibleLoot))
+                    },
+                    {
+                        type: 'light',
+                        count: ((totalLoot / (totalHaul - haul4) * haul3) * (lightC / possibleLoot))
+                    },
+                    {
+                        type: 'heavy',
+                        count: ((totalLoot / (totalHaul - haul4) * haul3) * (heavyC / possibleLoot))
+                    },
+                    {
+                        type: 'archer',
+                        count: ((totalLoot / (totalHaul - haul4) * haul3) * (archer / possibleLoot))
+                    },
+                    {
+                        type: 'marcher',
+                        count: ((totalLoot / (totalHaul - haul4) * haul3) * (marcher / possibleLoot))
+                    },
+                ];
+                scavengeOptions[humbleHaulers] = [
+                    {
+                        type: 'spear',
+                        count: ((totalLoot / (totalHaul - haul4 - haul3) * haul2) * (spears / possibleLoot))
+                    },
+                    {
+                        type: 'sword',
+                        count: ((totalLoot / (totalHaul - haul4 - haul3) * haul2) * (swords / possibleLoot))
+                    },
+                    {
+                        type: 'axe',
+                        count: ((totalLoot / (totalHaul - haul4 - haul3) * haul2) * (axes / possibleLoot))
+                    },
+                    {
+                        type: 'light',
+                        count: ((totalLoot / (totalHaul - haul4 - haul3) * haul2) * (lightC / possibleLoot))
+                    },
+                    {
+                        type: 'heavy',
+                        count: ((totalLoot / (totalHaul - haul4 - haul3) * haul2) * (heavyC / possibleLoot))
+                    },
+                    {
+                        type: 'archer',
+                        count: ((totalLoot / (totalHaul - haul4 - haul3) * haul2) * (archer / possibleLoot))
+                    },
+                    {
+                        type: 'marcher',
+                        count: ((totalLoot / (totalHaul - haul4 - haul3) * haul2) * (marcher / possibleLoot))
+                    },
+                ];
+                scavengeOptions[lackadaisicalLooters] = [
+                    {
+                        type: 'spear',
+                        count: (totalLoot * (spears / possibleLoot))
+                    },
+                    {
+                        type: 'sword',
+                        count: (totalLoot * (swords / possibleLoot))
+                    },
+                    {
+                        type: 'axe',
+                        count: (totalLoot * (axes / possibleLoot))
+                    },
+                    {
+                        type: 'light',
+                        count: (totalLoot * (lightC / possibleLoot))
+                    },
+                    {
+                        type: 'heavy',
+                        count: (totalLoot * (heavyC / possibleLoot))
+                    },
+                    {
+                        type: 'archer',
+                        count: (totalLoot * (archer / possibleLoot))
+                    },
+                    {
+                        type: 'marcher',
+                        count: (totalLoot * (marcher / possibleLoot))
+                    },
+                ];
+            }
+        }
+    }
+
+    run();
+
+    function run() {
+        let btn = null;
+        for (const option in scavengeOptions) {
+            btn = findNextButton(option);
+
+            if (btn) {
+                fillInTroops(option, getAvailableUnits(), btn);
+                break;
+            }
+        }
+    }
+
+    function clear() {
+        let btn = null;
+        for (const option in scavengeOptions) {
+            btn = findNextButton(option);
+            if (btn) {
+                emptyTroops(option);
+                break;
+            }
+        }
+    }
+
+    function fillInTroops(option, availableUnits, button) {
+        scavengeOptions[option].forEach(units => {
+            const type = units.type;
+            const count = units.count;
+            let requiredCapacity = availableUnits[type] < count ? availableUnits[type] : count;
+
+            $(`input.unitsInput[name='${type}']`).val(requiredCapacity).trigger("change");
+            $(button).focus();
+        });
+    }
+
+    function emptyTroops(option) {
+        scavengeOptions[option].forEach(units => {
+            const type = units.type;
+            $(`input.unitsInput[name='${type}']`).val("").trigger("change");
+        });
+    }
+
+    function findNextButton(option) {
+        startButtonName = document.getElementsByClassName("btn btn-default free_send_button")[0].innerHTML;
+        let btn = $(`.scavenge-option:contains("${option}")`).find('a:contains(' + startButtonName + ')');
+        if (btn.length > 0 && !$(btn).hasClass('btn-disabled')) return btn;
+    }
+
+
+    function getAvailableUnits() {
+        let availableUnits = {};
+
+        $('.units-entry-all').each((i, e) => {
+            const unitName = $(e).attr("data-unit");
+            const count = $(e).text().replace(/[()]/, '');
+            availableUnits[unitName] = parseInt(count);
+        });
+        return availableUnits;
+    }
+
+
+}
